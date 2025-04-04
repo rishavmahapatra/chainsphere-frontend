@@ -12,12 +12,12 @@ function Navbar() {
         </div>
         <div className="right p-4 flex gap-5">
           <Link className="cursor-pointer" href="/login">
-            <Button className="z-50 bg-white cursor-pointer text-black hover:bg-gray-200">
+            <Button className="z-50 cursor-pointer text-black hover:bg-gray-200">
               Login
             </Button>
           </Link>
           <Link href="/register">
-            <Button className="bg-white text-black hover:bg-gray-200">
+            <Button className=" text-black hover:bg-gray-200">
               Register
             </Button>
           </Link>
