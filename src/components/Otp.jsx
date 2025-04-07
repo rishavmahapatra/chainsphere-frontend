@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   InputOTP,
   InputOTPGroup,
@@ -20,11 +20,42 @@ const Otp = () => {
 
   const [otp, setOtp] = useState("");
 
-  const [isVerifying, setIsVerifying] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(false);
 
-  const [email, setEmail] = useState(localStorage.getItem("email") || "");
+  const [email, setEmail] = useState(() => localStorage.getItem("email") || "");
+
+  const [timeLeft, setTimeLeft] = useState(60); // Countdown in seconds
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
+
+  useEffect(() => {
+    let timer;
+    if (timeLeft > 0) {
+      timer = setTimeout(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    } else {
+      setIsResendDisabled(false); // Enable Resend OTP
+    }
+
+    return () => clearTimeout(timer);
+  }, [timeLeft]);
 
   // email =
+
+  const resendOtp = async () => {
+    try {
+      const res = await axios.post(`${BASE_URL}/user/resendOtp`, {
+        email,
+      });
+      toast("OTP resent successfully");
+
+      setTimeLeft(60); // Restart the timer
+      setIsResendDisabled(true);
+    } catch (error) {
+      console.log(error.response.data.message);
+      toast("Failed to resend OTP: ", error.response.data.message);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,9 +67,8 @@ const Otp = () => {
     }
 
     try {
-      
-      setIsVerifying(true)
-  // http://3.109.67.109:8001/api/v1
+      setIsVerifying(true);
+      // http://3.109.67.109:8001/api/v1
       const res = await axios.post(`${BASE_URL}/user/verifyOtp`, {
         email,
         otp,
@@ -48,18 +78,13 @@ const Otp = () => {
 
       toast("OTP verification success ");
 
-
       router.push("/login");
     } catch (error) {
       console.log(error.response.data.message);
       toast("OTP verification failed:", error.response.data.message);
-    }finally{
-
-      setIsVerifying(false)
-
+    } finally {
+      setIsVerifying(false);
     }
-
-
   };
 
   return (
@@ -89,6 +114,15 @@ const Otp = () => {
               <Button type="submit" className="w-full" disabled={isVerifying}>
                 Submit
               </Button>
+
+              <p
+                className={`text-blue-800 cursor-pointer ms-auto text-sm ${
+                  isResendDisabled ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={!isResendDisabled ? resendOtp : undefined}
+              >
+                {isResendDisabled ? `Resend OTP in ${timeLeft}s` : "Resend OTP"}
+              </p>
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
