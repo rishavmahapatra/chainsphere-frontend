@@ -1,59 +1,30 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { LoginForm } from "@/components/login-form";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+import LayoutWrapper from '@/components/LayoutWrapper';
 
-export default function Page() {
+export default function BuyCSPPage() {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Building Your Application
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-          </div>
-          <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
-          <div className="h-screen bg-red-500" />
-          <div id="demo" className="h-screen bg-blue-500" />
-
-          <div id='login' >
-
-            <LoginForm />
-          </div>
-
+   
+    <LayoutWrapper>
+      <h1 className="text-2xl font-bold mb-4">BUY CHAINSPHERE</h1>
+      <p className="text-yellow-400 mb-4">Chainsphere Price - $0.05</p>
+      <div className="bg-black border border-gray-700 p-6 rounded-lg max-w-xl">
+        <div className="mb-4">
+          <label className="block mb-2">Select Coin</label>
+          <select className="w-full p-2 bg-gray-800 text-white rounded">
+            <option value="">Select coin</option>
+            <option value="">Select </option>
+            <option value="">Select con</option>
+            <option value="">Select coi</option>
+          </select>
+          
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+        <div className="mb-4">
+          <label className="block mb-2">Enter USDT Amount</label>
+          <input type="number" className="w-full p-2 bg-gray-800 text-white rounded" />
+        </div>
+        <button className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500">
+          Pay
+        </button>
+      </div>
+    </LayoutWrapper>
   );
 }
