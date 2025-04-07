@@ -33,11 +33,11 @@ function Landing() {
          
         </div>
         <div className="right-content mx-auto">
-          <img
+          {/* <img
             src="/images/logo.svg"
             className="object-contain size-[800px]" // Adjusting with Tailwind classes
             alt="landing"
-          />
+          /> */}
         </div>
       </div>
       <div section="sec-2 " className="h-[50vh]">
