@@ -2,13 +2,13 @@
 import { Button } from "@/components/ui/button";
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
-import abi from "@/contract/ico.json";
-import {ICO_CONTRACT_ADDRESS} from "@/.env/config.js";
+import abi from "../../contract/ico.json";
+import { ICO_CONTRACT_ADDRESS } from "../../env/config";
 import { Input } from "@/components/ui/input";
 
 export default function BuyCSP() {
   const [currentAccount, setCurrentAccount] = useState(null);
-   const [signer, setSigner] = useState(null);
+  const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
   const [message, setMessage] = useState("");
 
@@ -42,26 +42,40 @@ export default function BuyCSP() {
       alert("Please install a crypto wallet like MetaMask");
     }
   };
+  async function addTrasactionToDB() {
 
+  }
   async function StartTime(time) {
     try {
-        const tx = await contract.setStartTime(time)
-        await tx.wait();
-        alert("ico startTime set successfully");
-    }catch(error){
-        console.error("Error fetching start time:", error);
-        alert("Error fetching start time");
+      const tx = await contract.setStartTime(time)
+      await tx.wait();
+      alert("ico startTime set successfully");
+
+    } catch (error) {
+      console.error("Error fetching start time:", error);
+      alert("Error fetching start time");
     }
   }
   async function BuyToken(amount) {
     try {
-        const tx = await contract.buyToken(amount)
-        await tx.wait();
-        alert("Token transaction successful");
-        console.log(tx);
-    }catch(error){
-        console.error("Error fetching start time:", error);
-        alert("Token transaction unsuccessful");
+      const tx = await contract.buyToken(amount);
+      await tx.wait();
+      alert("Token transaction successful, here is the transaction:+");
+      console.log(tx);
+      console.log("here is hash:");
+      const txHash = tx.hash;
+      console.log(txHash);
+      // const type = "buy";
+
+      // const price = await contract.tokenPrice();
+      // const priceInEther = ethers.utils.formatUnits(price || 0, 18);
+      // console.log("Here is the price of one token:");
+      // console.log(priceInEther);
+      // await addTrasactionToDB(amount, price, type, txHash);
+    } catch (error) {
+      console.error("Error fetching token price:", error);
+      alert("Token transaction unsuccessful");
+      console.log(error);
     }
   }
 
@@ -76,7 +90,7 @@ export default function BuyCSP() {
         {currentAccount && <p>Connected account: {currentAccount}</p>}
       </div>
       <Input></Input>
-      <Button onClick={()=>BuyToken(2000)}>
+      <Button onClick={() => BuyToken(2000)}>
         Buy CSP
       </Button>
     </div>
