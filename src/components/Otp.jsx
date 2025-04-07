@@ -24,7 +24,7 @@ const Otp = () => {
 
   const [email, setEmail] = useState(() => localStorage.getItem("email") || "");
 
-  const [timeLeft, setTimeLeft] = useState(60); // Countdown in seconds
+  const [timeLeft, setTimeLeft] = useState(60); 
   const [isResendDisabled, setIsResendDisabled] = useState(true);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Otp = () => {
         setTimeLeft((prev) => prev - 1);
       }, 1000);
     } else {
-      setIsResendDisabled(false); // Enable Resend OTP
+      setIsResendDisabled(false); 
     }
 
     return () => clearTimeout(timer);
@@ -49,7 +49,7 @@ const Otp = () => {
       });
       toast("OTP resent successfully");
 
-      setTimeLeft(60); // Restart the timer
+      setTimeLeft(60); 
       setIsResendDisabled(true);
     } catch (error) {
       console.log(error.response.data.message);
@@ -68,7 +68,7 @@ const Otp = () => {
 
     try {
       setIsVerifying(true);
-      // http://3.109.67.109:8001/api/v1
+      
       const res = await axios.post(`${BASE_URL}/user/verifyOtp`, {
         email,
         otp,
