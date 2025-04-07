@@ -68,6 +68,8 @@ export default function BuyCSP() {
         await tx.wait();
         alert("Token transaction successful");
         console.log(tx);
+        console.log("Here is the hash", tx.hash)
+
       }
 
     } catch (error) {
