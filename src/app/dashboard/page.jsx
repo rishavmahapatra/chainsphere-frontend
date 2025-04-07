@@ -46,9 +46,12 @@ export default function Page() {
           <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
           <div className="h-screen bg-red-500" />
           <div id="demo" className="h-screen bg-blue-500" />
+
           <div id='login' >
+
             <LoginForm />
           </div>
+
         </div>
       </SidebarInset>
     </SidebarProvider>

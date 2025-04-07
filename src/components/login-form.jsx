@@ -36,7 +36,6 @@ export function LoginForm({
               <Button type="submit" className="w-full">
                 Login
               </Button>
-              
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
