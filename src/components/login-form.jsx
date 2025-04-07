@@ -24,6 +24,9 @@ export function LoginForm({ className, ...props }) {
         "http://3.109.67.109:8001/api/v1/user/login",
         formData
       );
+      const token  = response.data.data.token;
+      document.cookie = `token=${token}; path=/;`;
+
       if (response.data.success) {
         toast("Login Successfully")
         router.push("/");
