@@ -22,7 +22,8 @@ export default function BuyCSP() {
   const [estimatedCSP, setEstimatedCSP] = useState(0.00); // Default value
   const [amount, setAmount] = useState(0.0); // New state for amount input
   const [cspPrice, setCspPrice] = useState(0.0);
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoic2FteWFrbGFoaXJlMTMwNkBnbWFpbC5jb20iLCJpYXQiOjE3NDQxMjg4NTgsImV4cCI6MTc0NDM4ODA1OH0.6m3KStswPXk3vErGpWQrO6mFFVrf97Sj01HQ1BbLcUM";
+  const token = localStorage.getItem("token"); // Retrieve token from local storage
+  console.log("Retrieved token from local storage:", token); // Log the retrieved token
 
   useEffect(() => {
     async function initialize() {
