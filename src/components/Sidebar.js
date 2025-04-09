@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 const menuItems = [
   { name: 'Buy CSP', path: '/buy_csp' },
-  { name: 'Transaction History', path: '/transaction-history' },
+  { name: 'Transaction History', path: '/transactions' },
   { name: 'Ambassador', path: '/ambassador' },
   { name: 'My Wallet', path: '/dashboard' },
   { name: 'KYC', path: '/kyc' },
@@ -17,7 +17,7 @@ export default function Sidebar() {
 
   return (
     <div className="w-64 bg-black text-white h-screen p-5">
-     
+
       <ul>
         {menuItems.map(item => (
           <li key={item.name} className={`mb-4 p-2 ${pathname === item.path ? 'bg-gradient-to-r from-[#FFC000] to-[#FF9500] p-2 rounded-lg text-black' : ''}`}>

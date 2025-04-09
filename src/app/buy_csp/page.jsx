@@ -200,7 +200,7 @@ export default function BuyCSP() {
         <div className="mt-4 text-lg">
           {selectedCurrency === "USDT"
             ? `1 CSP = ${cspPrice}`
-            : `1 CSP = ${((1 / bnbPrice) * 0.05)} BNB`}
+            : `1 CSP = ${((1 / bnbPrice) * 0.05).toFixed(8)} BNB`}
         </div>
 
         <div className="flex flex-row items-center justify-between mt-4">
