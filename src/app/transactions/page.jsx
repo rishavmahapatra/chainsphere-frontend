@@ -10,7 +10,7 @@ export default function TransactionsPage() {
 
     useEffect(() => {
         const fetchTransactions = async () => {
-            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImVtYWlsIjoic2FteWFrbGFoaXJlMTMwNkBnbWFpbC5jb20iLCJpYXQiOjE3NDQwMTE5MzIsImV4cCI6MTc0NDI3MTEzMn0.XBKRPZdtZoQfZSWDyhg0mS6hFpYGYXdDMeBf95K41yw';
+            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoic2FteWFrbGFoaXJlMTMwNkBnbWFpbC5jb20iLCJpYXQiOjE3NDQxMjg4NTgsImV4cCI6MTc0NDM4ODA1OH0.6m3KStswPXk3vErGpWQrO6mFFVrf97Sj01HQ1BbLcUM';
 
             try {
                 const response = await axios.get("http://3.109.67.109:8001/api/v1/user/transactions", {
@@ -42,6 +42,8 @@ export default function TransactionsPage() {
                     <li key={transaction.id} style={{ marginBottom: '15px', border: '1px solid #FFA500', padding: '10px', borderRadius: '5px' }}>
                         <p>Transaction Hash: <span style={{ color: '#FFA500' }}>{transaction.transactionHash}</span></p>
                         <p>Amount: <span style={{ color: '#FFA500' }}>${transaction.amount}</span></p>
+                        <p>Price: <span style={{ color: '#FFA500' }}>{transaction.price}</span></p>
+                        <p>Value: <span style={{ color: '#FFA500' }}>{transaction.value}</span></p>
                         <p>Status: <span style={{ color: '#FFA500' }}>{transaction.status}</span></p>
                         <p>Type: <span style={{ color: '#FFA500' }}>{transaction.type}</span></p>
                         <p>Created At: <span style={{ color: '#FFA500' }}>{new Date(transaction.createdAt).toLocaleString()}</span></p>

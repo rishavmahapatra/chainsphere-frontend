@@ -98,14 +98,14 @@ export default function BuyCSP() {
     }
   };
 
-  const addTransactionToDB = async (hash, currency, amount, price) => {
-    const value = (price * amount).toFixed(7).toString(); // Calculate value
+  const addTransactionToDB = async (hash, currency, amount, totalValue, price) => {
+    const value = totalValue.toString();// Calculate value
     const status = "completed";
     const type = "buy";
     const transactionData = {
       transactionHash: hash.toString(),
-      amount: amount.toString() + currency,
-      price: price.toString(),
+      amount: amount.toString() + " " + currency,
+      price: price.toString() + " " + currency,
       value: value,
       status: status,
       type: type,
@@ -143,7 +143,7 @@ export default function BuyCSP() {
           console.log("here is the hash:", tx.hash)
           const bnb1 = ((1 / bnbPrice) * cspPrice).toFixed(8)
           try {
-            await addTransactionToDB(tx.hash, "BNB", amount, bnb1)
+            await addTransactionToDB(tx.hash, "BNB", amount, estimatedCSP, bnb1)
           }
           catch (err) {
             console.log("error while adding to db : ".err);
@@ -167,7 +167,7 @@ export default function BuyCSP() {
           console.log(tx);
           console.log("Here is the hash", tx.hash);
           try {
-            await addTransactionToDB(tx.hash, "USDT", amount, cspPrice)
+            await addTransactionToDB(tx.hash, "USDT", amount, estimatedCSP, cspPrice)
           }
           catch (err) {
             console.log("error while adding to db : ".err);
