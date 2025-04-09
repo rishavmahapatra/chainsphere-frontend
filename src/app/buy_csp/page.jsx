@@ -10,9 +10,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import LayoutWrapper from '@/components/LayoutWrapper';
 import axios from "axios";
+import { useWallet } from '../../walletContext/WalletContext'; // Import the useWallet hook
 
 export default function BuyCSP() {
-  const [currentAccount, setCurrentAccount] = useState(null);
+  const { account, isBuyCSPDisabled } = useWallet(); // Get account and button state from wallet context
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
   const [contract1, setContract1] = useState(null);
@@ -34,7 +35,7 @@ export default function BuyCSP() {
       const signer = await provider.getSigner();
 
       const contract = new ethers.Contract(ICO_CONTRACT_ADDRESS, abi, signer);
-      console.log("trying to fecth tokenPrice")
+      console.log("trying to fetch tokenPrice")
       try {
         const price = await contract.tokenPrice();
         const formattedPrice = ethers.formatUnits(price, 18); // Convert from wei to token price
@@ -50,7 +51,6 @@ export default function BuyCSP() {
       console.log(`contract ----->`, contract)
       setSigner(signer);
 
-
       setContract(contract);
       console.log("Contract initialized", contract);
       console.log("Signer", signer);
@@ -63,22 +63,6 @@ export default function BuyCSP() {
     console.log("tokenPrice from smart contract: ",
     )
   }, [bnbPrice, cspPrice]);
-
-  const connectWallet = async () => {
-    try {
-      if (!window.ethereum) throw new Error("No crypto wallet found");
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setCurrentAccount(accounts[0]);
-
-      localStorage.setItem("currentAccount", accounts[0]);
-      console.log(localStorage.getItem("currentAccount"));
-    } catch (err) {
-      console.error(err.message);
-      alert("Please install a crypto wallet like MetaMask");
-    }
-  };
 
   const handleCurrencyChange = (event) => {
     setSelectedCurrency(event.target.value);
@@ -124,14 +108,18 @@ export default function BuyCSP() {
       console.error("Error adding transaction to DB:", error.response ? error.response.data : error.message);
     }
   }
-  async function BuyToken(i, amount) {
+
+  const BuyToken = async (i, amount) => {
+    if (!account) { // Check if the user is connected
+      alert("Please connect your wallet to proceed.");
+      return;
+    }
     console.log("type of amount is :", typeof (amount));
     console.log("type of bnbPrice is :", typeof (bnbPrice));
 
     try {
       if (i === 0) {
         try {
-
           const bnb = ((1 / bnbPrice) * cspPrice).toFixed(8);
           console.log("testt bnb price being sent is :  ", bnb);
           const amountInWei = ethers.parseUnits(amount.toString(), 18); // Convert amount to Wei
@@ -153,9 +141,7 @@ export default function BuyCSP() {
           console.log("BNB failed due to: ", err);
         }
       } else {
-
         try {
-
           const amountInWei = ethers.parseUnits(amount.toString(), 18);
           const usdtContract = await contract1.approve(ICO_CONTRACT_ADDRESS, amountInWei);
           await usdtContract.wait();
@@ -177,7 +163,6 @@ export default function BuyCSP() {
         catch (err) {
           console.log("error in usdt", err)
         }
-
       }
     } catch (error) {
       console.error("Error:", error);
@@ -190,11 +175,7 @@ export default function BuyCSP() {
       <div>
         <div className="buy-csp-container flex flex-col items-center justify-center">
           <h1 className="text-3xl font-bold">Buy CSP</h1>
-          <p>Connect your wallet to buy CSP tokens.</p>
-          <Button onClick={connectWallet}>
-            Connect Wallet
-          </Button>
-          {currentAccount && <p>Connected account: {currentAccount}</p>}
+
         </div>
 
         {/* Dynamic Text Display */}
@@ -232,7 +213,7 @@ export default function BuyCSP() {
 
         {/* Centered Buy CSP Button */}
         <div className="flex justify-center mt-4">
-          <Button onClick={() => BuyToken(selectedCurrency === "USDT" ? 1 : 0, amount)}>
+          <Button onClick={() => BuyToken(selectedCurrency === "USDT" ? 1 : 0, amount)} disabled={!account || isBuyCSPDisabled}>
             Buy CSP
           </Button>
         </div>

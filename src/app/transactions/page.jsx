@@ -11,7 +11,7 @@ export default function TransactionsPage() {
     useEffect(() => {
         const fetchTransactions = async () => {
             const token = localStorage.getItem("token"); // Retrieve token from local storage
-            console.log("Retrieved token from local storage:", token);
+
             try {
                 const response = await axios.get("http://3.109.67.109:8001/api/v1/user/transactions", {
                     headers: {

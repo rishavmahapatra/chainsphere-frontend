@@ -24,16 +24,17 @@ export function LoginForm({ className, ...props }) {
         "https://api.chainsphere.tech/api/v1/user/login",
         formData
       );
-      const token  = response.data.data.token;
-      localStorage.setItem("token",token);
+      const token = response.data.data.token;
+      localStorage.setItem("token", token);
+      console.log("new token set : ", localStorage.getItem("token"));
 
       if (response.data.success) {
         toast("Login Successfully")
         router.push("/");
-      } 
-      
+      }
+
     } catch (error) {
-      toast("Something went wrong") 
+      toast("Something went wrong")
     }
   };
 
