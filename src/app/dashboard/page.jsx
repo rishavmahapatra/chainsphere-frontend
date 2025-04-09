@@ -2,6 +2,7 @@ import LayoutWrapper from '@/components/LayoutWrapper';
 
 export default function BuyCSPPage() {
   return (
+   
     <LayoutWrapper>
       <h1 className="text-2xl font-bold mb-4">BUY CHAINSPHERE</h1>
       <p className="text-yellow-400 mb-4">Chainsphere Price - $0.05</p>

@@ -5,7 +5,7 @@ import Link from "next/link";
 function Navbar() {
   return (
     <div>
-      <nav className="flex justify-between z-50">
+      <nav className="flex justify-between relative z-50">
         <div className="left flex justify-start p-2 items-center w-full">
           <img src="/images/logo.svg" alt="logo" className="w-12 p-2" />
           <span>Chainsphere</span>
