@@ -36,7 +36,7 @@ export default function TransactionsPage() {
 
     return (
         <div style={{ backgroundColor: '#1E1E1E', color: '#FFFFFF', padding: '20px' }}>
-            <h1 style={{ color: '#FFA500' }}>Transaction History</h1>
+            <h1 style={{ color: '#FFA500' }}>Your Transaction History</h1>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
                 {transactions.map(transaction => (
                     <li key={transaction.id} style={{ marginBottom: '15px', border: '1px solid #FFA500', padding: '10px', borderRadius: '5px' }}>
