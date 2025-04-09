@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Button } from "@/components/ui/button";
 
 const menuItems = [
   { name: 'Buy CSP', path: '/buy_csp' },
@@ -24,6 +25,9 @@ export default function Sidebar() {
             <Link href={item.path} className="block hover:bg-gradient-to-r from-[#FFC000] to-[#FF9500] p-2 rounded-lg">{item.name}</Link>
           </li>
         ))}
+          <Button  >
+            Connect Wallet
+          </Button>
       </ul>
     </div>
   );

@@ -21,11 +21,11 @@ export function LoginForm({ className, ...props }) {
 
     try {
       const response = await axios.post(
-        "http://3.109.67.109:8001/api/v1/user/login",
+        "https://api.chainsphere.tech/api/v1/user/login",
         formData
       );
       const token  = response.data.data.token;
-      document.cookie = `token=${token}; path=/;`;
+      localStorage.setItem("token",token);
 
       if (response.data.success) {
         toast("Login Successfully")
