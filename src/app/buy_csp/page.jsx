@@ -24,7 +24,6 @@ export default function BuyCSP() {
   const [amount, setAmount] = useState(0.0); // New state for amount input
   const [cspPrice, setCspPrice] = useState(0.0);
   const token = localStorage.getItem("token"); // Retrieve token from local storage
-  console.log("Retrieved token from local storage:", token); // Log the retrieved token
 
   useEffect(() => {
     async function initialize() {
@@ -35,33 +34,25 @@ export default function BuyCSP() {
       const signer = await provider.getSigner();
 
       const contract = new ethers.Contract(ICO_CONTRACT_ADDRESS, abi, signer);
-      console.log("trying to fetch tokenPrice")
       try {
         const price = await contract.tokenPrice();
         const formattedPrice = ethers.formatUnits(price, 18); // Convert from wei to token price
         setCspPrice(formattedPrice); // Set the formatted price
-        console.log("The price is fetched for the token from sc: ", formattedPrice);
       }
       catch (err) {
+        alert("Something went wrong.")
         console.log("Error while fetching tokenPrice:", err);
       }
-
       const contract1 = new ethers.Contract(USDT_CONTRACT_ADDRESS, abi1, signer);
       setContract1(contract1);
-      console.log(`contract ----->`, contract)
       setSigner(signer);
-
       setContract(contract);
-      console.log("Contract initialized", contract);
-      console.log("Signer", signer);
     }
     initialize();
   }, []);
 
   useEffect(() => {
     console.log("bnbPrice", bnbPrice);
-    console.log("tokenPrice from smart contract: ",
-    )
   }, [bnbPrice, cspPrice]);
 
   const handleCurrencyChange = (event) => {
@@ -96,7 +87,6 @@ export default function BuyCSP() {
       type: type,
     };
     try {
-      console.log("here is the transactionData being added to db:", transactionData)
       await axios.post("http://3.109.67.109:8001/api/v1/user/transaction", transactionData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -114,22 +104,15 @@ export default function BuyCSP() {
       alert("Please connect your wallet to proceed.");
       return;
     }
-    console.log("type of amount is :", typeof (amount));
-    console.log("type of bnbPrice is :", typeof (bnbPrice));
-
     try {
       if (i === 0) {
         try {
           const bnb = ((1 / bnbPrice) * cspPrice).toFixed(8);
-          console.log("testt bnb price being sent is :  ", bnb);
           const amountInWei = ethers.parseUnits(amount.toString(), 18); // Convert amount to Wei
           const bnbInWei = ethers.parseUnits(bnb.toString(), 18);
-          console.log("testt bnb price being sent is :  ", bnb);
           const tx = await contract.buyToken(0, bnbInWei, { value: amountInWei });  // Pass amountInWei as msg.value
           await tx.wait();
           alert("BNB payment successful, Token transaction successful!");
-          console.log(tx);
-          console.log("here is the hash:", tx.hash)
           const bnb1 = ((1 / bnbPrice) * cspPrice).toFixed(8)
           try {
             await addTransactionToDB(tx.hash, "BNB", amount, estimatedCSP, bnb1)
@@ -139,20 +122,16 @@ export default function BuyCSP() {
           }
         } catch (err) {
           console.log("BNB failed due to: ", err);
+          alert("Please wait for the ICO to be ACTIVE!")
         }
       } else {
         try {
           const amountInWei = ethers.parseUnits(amount.toString(), 18);
           const usdtContract = await contract1.approve(ICO_CONTRACT_ADDRESS, amountInWei);
           await usdtContract.wait();
-          console.log(usdtContract);
-
-          console.log("how much usdt : ", amount);
           const tx = await contract.buyToken(amountInWei, 0); // Pass the USDT amount
           await tx.wait();
           alert("Token transaction successful");
-          console.log(tx);
-          console.log("Here is the hash", tx.hash);
           try {
             await addTransactionToDB(tx.hash, "USDT", amount, estimatedCSP, cspPrice)
           }
@@ -162,6 +141,7 @@ export default function BuyCSP() {
         }
         catch (err) {
           console.log("error in usdt", err)
+          alert("Please wait for the ICO to be ACTIVE!")
         }
       }
     } catch (error) {

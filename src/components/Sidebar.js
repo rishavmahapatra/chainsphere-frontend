@@ -30,7 +30,7 @@ export default function Sidebar() {
         {/* Conditional rendering based on wallet connection */}
         {account ? (
           <div className="mb-4 p-2 bg-gradient-to-r from-[#FFC000] to-[#FF9500] rounded-lg text-black">
-            {account.slice(0, 6) + '...' + account.slice(-4)} {/* Display shortened address */}
+            Connected Account:{account.slice(0, 3) + '...' + account.slice(-4)} {/* Display shortened address */}
             <Button onClick={disconnectWallet} className="mt-2">
               Disconnect Wallet
             </Button>
