@@ -161,14 +161,14 @@ export default function BuyCSP() {
   return (
     <LayoutWrapper>
       {/* // background image start   */}
-      <div className="bgImage fixed z-20 top-[73%] translate-y-[-50%] left-[50%] translate-x-[-50%]">
+      <div className="bgImage fixed z-20 top-[73%] translate-y-[-50%] left-[55%] translate-x-[-50%]">
         <img src="/images/logo.svg" alt="" className="logo opacity-50 blursm z-20 size-[300px]" />
       </div>
       {/* // background image ends    */}
       <div className="relative z-30 ">
 
 
-        <div className="buy-csp-container relative z-30 flex items-center justify-between">
+        <div className="buy-csp-container relative z-30 flex flex-wrap gap-2 mb-10 items-center justify-between">
           <h1 className="text-3xl font-bold">Buy CSP</h1>
           {/* Dynamic Text Display */}
           <div className="mt-4 text-lg bg-yellow-400 border border-yellow-100 w-fit  p-2 rounded-lg text-black">
@@ -180,7 +180,7 @@ export default function BuyCSP() {
 
 
 
-        <div className="flex flex-row items-center justify-between bg-[#ffbe192b] backdrop-blur-lg p-2 rounded-lg mt-4">
+        <div className="flex flex-row flex-wrap gap-4 sm:gap-0 items-center justify-between bg-[#ffbe192b] backdrop-blur-lg p-2 rounded-lg mt-4">
           <div className="flex flex-col space-y-2 mr-2">
             <Label htmlFor="currency" className="" >Currency</Label>
             <select id="currency" value={selectedCurrency} onChange={handleCurrencyChange} className="bg-white text-black border- outline-none font-semibold [1px] border-gray-300 m-0 px-4 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full 

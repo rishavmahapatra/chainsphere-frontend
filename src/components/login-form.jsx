@@ -37,7 +37,7 @@ export function LoginForm({ className, ...props }) {
 
       if (response.data.success) {
         toast("Login Successfully")
-        router.push("/");
+        router.push("/buy_csp");
       }
 
     } catch (error) {

@@ -135,10 +135,17 @@ export function SignupForm({ className, ...props }) {
                 <Input id="email" name="email" type="email" placeholder="matt@yopmail.com" required />
               </div>
 
+<<<<<<< HEAD
               <div className="grid gap-3">
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" name="password" type="password" required />
               </div>
+=======
+            <div className="grid gap-3">
+              <Label htmlFor="referal">Referal</Label>
+              <Input id="referal" name="referal" type="text" placeholder="referal code" value={referal.referralCode} />
+            </div>
+>>>>>>> origin/aves
 
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? "Signing Up..." : "Sign Up"}
