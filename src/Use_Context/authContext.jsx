@@ -7,13 +7,13 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({children}) =>{
 
 
-    const [authUser, setAuthUser] = useState();
-    const [userDetails, setuserDetails] = useState()
+    const [authUser, setAuthUser] = useState(null);
+    const [userDetails, setuserDetails] = useState(null)
 
     useEffect(() => {
         const token  = localStorage.getItem("token");
         const user  = localStorage.getItem("user");
-        if(token){
+        if(token && user){
             setAuthUser(token);
             setuserDetails(user);
         }

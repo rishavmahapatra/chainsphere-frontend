@@ -6,9 +6,10 @@ import { userAuth } from "@/Use_Context/authContext";
 
 function Navbar() {
   const {authUser,userDetails} = userAuth();
-  const user  = JSON.parse(userDetails)
-
-  console.log("the auth use is her e",user.firstName)
+  let user = {};
+  if(authUser && userDetails){
+     user  = JSON.parse(userDetails);
+  }
 
   return (
     <div>
