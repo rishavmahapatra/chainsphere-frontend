@@ -11,6 +11,14 @@ import { Label } from "@/components/ui/label";
 import LayoutWrapper from '@/components/LayoutWrapper';
 import axios from "axios";
 import { useWallet } from '../../walletContext/WalletContext'; // Import the useWallet hook
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function BuyCSP() {
   const { account, isBuyCSPDisabled } = useWallet(); // Get account and button state from wallet context
@@ -152,47 +160,58 @@ export default function BuyCSP() {
 
   return (
     <LayoutWrapper>
-      <div>
-        <div className="buy-csp-container flex flex-col items-center justify-center">
+      {/* // background image start   */}
+      <div className="bgImage fixed z-20 top-[73%] translate-y-[-50%] left-[50%] translate-x-[-50%]">
+        <img src="/images/logo.svg" alt="" className="logo opacity-50 blursm z-20 size-[300px]" />
+      </div>
+      {/* // background image ends    */}
+      <div className="relative z-30 ">
+
+
+        <div className="buy-csp-container relative z-30 flex items-center justify-between">
           <h1 className="text-3xl font-bold">Buy CSP</h1>
-
+          {/* Dynamic Text Display */}
+          <div className="mt-4 text-lg bg-yellow-400 border border-yellow-100 w-fit  p-2 rounded-lg text-black">
+            {selectedCurrency === "USDT"
+              ? `1 CSP = ${cspPrice}`
+              : `1 CSP = ${((1 / bnbPrice) * 0.05).toFixed(8)} BNB`}
+          </div>
         </div>
 
-        {/* Dynamic Text Display */}
-        <div className="mt-4 text-lg">
-          {selectedCurrency === "USDT"
-            ? `1 CSP = ${cspPrice}`
-            : `1 CSP = ${((1 / bnbPrice) * 0.05).toFixed(8)} BNB`}
-        </div>
 
-        <div className="flex flex-row items-center justify-between mt-4">
-          <div className="flex flex-col mr-2">
-            <Label htmlFor="currency">Currency</Label>
-            <select id="currency" value={selectedCurrency} onChange={handleCurrencyChange} className="border rounded p-2">
-              <option value="USDT">USDT</option>
+
+        <div className="flex flex-row items-center justify-between bg-[#ffbe192b] backdrop-blur-lg p-2 rounded-lg mt-4">
+          <div className="flex flex-col space-y-2 mr-2">
+            <Label htmlFor="currency" className="" >Currency</Label>
+            <select id="currency" value={selectedCurrency} onChange={handleCurrencyChange} className="bg-white text-black border- outline-none font-semibold [1px] border-gray-300 m-0 px-4 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full 
+            p-3">
+              {/* <option selected>Choose a currency</option> */}
+              <option selected={true} value="USDT">USDT</option>
               <option value="BNB">BNB</option>
             </select>
           </div>
 
-          <div className="flex flex-col mx-2">
-            <Label htmlFor="amount">Amount</Label>
+          <div className="flex flex-col space-y-2 mx-2">
+            <Label htmlFor="amount ">Amount</Label>
             <Input
               id="amount"
               type="number"
+              min="0"
+              className="bg-gray-300"
               placeholder="Enter amount"
               value={amount}
               onChange={handleAmountChange} // Update amount on change
             />
           </div>
 
-          <div className="flex flex-col ml-2">
+          <div className="flex flex-col space-y-2 ml-2">
             <Label htmlFor="estimatedCSP">Est CSP Tokens</Label>
             <Input id="estimatedCSP" type="text" value={`${estimatedCSP}`} readOnly />
           </div>
         </div>
 
         {/* Centered Buy CSP Button */}
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mr-24 relative z-30 mt-4">
           <Button onClick={() => BuyToken(selectedCurrency === "USDT" ? 1 : 0, amount)} disabled={!account || isBuyCSPDisabled}>
             Buy CSP
           </Button>
@@ -200,8 +219,8 @@ export default function BuyCSP() {
 
         {/* Disclaimer Text below the button */}
         {selectedCurrency === "BNB" && (
-          <p className="mt-2 text-sm text-gray-500 text-center">
-            **The BNB price is volatile, the live price will be considered.**
+          <p className="mt-2 text-sm text-white text-center">
+            **The <span className="text-yellow-400">BNB</span> price is volatile, the live price will be considered.**
           </p>
         )}
       </div>
