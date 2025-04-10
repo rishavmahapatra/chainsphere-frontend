@@ -25,7 +25,10 @@ export function LoginForm({ className, ...props }) {
         formData
       );
       const token  = response.data.data.token;
+      const user  = response.data.data.user;
+      console.log("the data is here from lcoal ",user)
       localStorage.setItem("token",token);
+      localStorage.setItem("user",JSON.stringify(user));
 
       if (response.data.success) {
         toast("Login Successfully")
