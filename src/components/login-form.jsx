@@ -24,9 +24,17 @@ export function LoginForm({ className, ...props }) {
         "https://api.chainsphere.tech/api/v1/user/login",
         formData
       );
+<<<<<<< HEAD
       const token = response.data.data.token;
       localStorage.setItem("token", token);
       console.log("new token set : ", localStorage.getItem("token"));
+=======
+      const token  = response.data.data.token;
+      const user  = response.data.data.user;
+      console.log("the data is here from lcoal ",user)
+      localStorage.setItem("token",token);
+      localStorage.setItem("user",JSON.stringify(user));
+>>>>>>> origin/aves
 
       if (response.data.success) {
         toast("Login Successfully")
