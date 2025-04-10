@@ -29,17 +29,11 @@ export function LoginForm({ className, ...props }) {
         "https://api.chainsphere.tech/api/v1/user/login",
         formData
       );
-<<<<<<< HEAD
       const token = response.data.data.token;
+      const user = response.data.data.user;
+      console.log("the data is here from lcoal ", user)
       localStorage.setItem("token", token);
-      console.log("new token set : ", localStorage.getItem("token"));
-=======
-      const token  = response.data.data.token;
-      const user  = response.data.data.user;
-      console.log("the data is here from lcoal ",user)
-      localStorage.setItem("token",token);
-      localStorage.setItem("user",JSON.stringify(user));
->>>>>>> origin/aves
+      localStorage.setItem("user", JSON.stringify(user));
 
       if (response.data.success) {
         toast("Login Successfully")
@@ -89,20 +83,20 @@ export function LoginForm({ className, ...props }) {
 
                 <div className="inputWraper flex relative">
 
-                <Input
-                  id="password"
-                  type={`${showPassword ? "text" : "password"}`}
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
-                  placeholder="enter your password"
-                  required
-                />
-                 {showPassword ? (
+                  <Input
+                    id="password"
+                    type={`${showPassword ? "text" : "password"}`}
+                    value={formData.password}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
+                    placeholder="enter your password"
+                    required
+                  />
+                  {showPassword ? (
                     <span
                       onClick={() => {
-                       setShowPassword(!showPassword)
+                        setShowPassword(!showPassword)
                       }}
                       className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
                     >
@@ -112,7 +106,7 @@ export function LoginForm({ className, ...props }) {
                   ) : (
                     <span
                       onClick={() => {
-                       setShowPassword(!showPassword)
+                        setShowPassword(!showPassword)
                       }}
                       className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
                     >
