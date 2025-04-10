@@ -27,7 +27,7 @@ export function ResetPasswordForm() {
     confirmPassword: "",
   });
 
-//   const token  = localStorage.getItem("token")
+  const token  = localStorage.getItem("token")
 
   const handleShowPassword = (passwordId) => {
     switch (passwordId) {
@@ -64,7 +64,7 @@ export function ResetPasswordForm() {
         "https://api.chainsphere.tech/api/v1/user/changePassword",
         formData,{
             headers:{
-                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImVtYWlsIjoiaDJAeW9wbWFpbC5jb20iLCJpYXQiOjE3NDQxMTMzMzAsImV4cCI6MTc0NDM3MjUzMH0.BrkBr21xVrWEEiQ1-JURmnIIk_Q5zCWxWmH5SyU-utQ`,
+                'Authorization': `Bearer ${token}`,
             }
         }
       );

@@ -8,6 +8,9 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner"
+import { BiShow } from "react-icons/bi";
+import { BiHide } from "react-icons/bi";
+
 export function LoginForm({ className, ...props }) {
   const router = useRouter();
 
@@ -15,6 +18,8 @@ export function LoginForm({ className, ...props }) {
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,15 +86,41 @@ export function LoginForm({ className, ...props }) {
                     Forgot your password?
                   </a>
                 </div>
+
+                <div className="inputWraper flex relative">
+
                 <Input
                   id="password"
-                  type="password"
+                  type={`${showPassword ? "text" : "password"}`}
                   value={formData.password}
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
+                  placeholder="enter your password"
                   required
                 />
+                 {showPassword ? (
+                    <span
+                      onClick={() => {
+                       setShowPassword(!showPassword)
+                      }}
+                      className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
+                    >
+                      {" "}
+                      <BiShow fontSize={"1.2rem"} />{" "}
+                    </span>
+                  ) : (
+                    <span
+                      onClick={() => {
+                       setShowPassword(!showPassword)
+                      }}
+                      className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
+                    >
+                      {" "}
+                      <BiHide fontSize={"1.2rem"} />{" "}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <Button type="submit" className="w-full">
