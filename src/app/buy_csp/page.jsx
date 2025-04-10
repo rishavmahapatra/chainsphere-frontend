@@ -24,7 +24,7 @@ export default function BuyCSP() {
   const [amount, setAmount] = useState(0.0); // New state for amount input
   const [cspPrice, setCspPrice] = useState(0.0);
   const token = localStorage.getItem("token"); // Retrieve token from local storage
-
+  console.log("here is the token: ", token)
   useEffect(() => {
     async function initialize() {
       const res = await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd")
