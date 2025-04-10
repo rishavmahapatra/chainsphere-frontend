@@ -7,11 +7,11 @@ import { useWallet } from '../walletContext/WalletContext'; // Import the useWal
 
 const menuItems = [
   { name: 'Buy CSP', path: '/buy_csp' },
-  { name: 'Transaction History', path: '/transactions' },
-  { name: 'Ambassador', path: '/ambassador' },
-  { name: 'My Wallet', path: '/dashboard' },
-  { name: 'KYC', path: '/kyc' },
-  { name: 'My Profile', path: '/profile' },
+  // { name: 'Transaction History', path: '/transactions' },
+  // { name: 'Ambassador', path: '/ambassador' },
+  // { name: 'My Wallet', path: '/dashboard' },
+  // { name: 'KYC', path: '/kyc' },
+  // { name: 'My Profile', path: '/profile' },
 ];
 
 export default function Sidebar() {
@@ -27,13 +27,13 @@ export default function Sidebar() {
             <Link href={item.path} className="block hover:bg-gradient-to-r from-[#FFC000] to-[#FF9500] p-2 rounded-lg">{item.name}</Link>
           </li>
         ))}
+        <Button className="mt-2 mb-2" >
+          Refer Someone!
+        </Button>
         {/* Conditional rendering based on wallet connection */}
         {account ? (
           <div className="mb-4 p-2 bg-gradient-to-r from-[#FFC000] to-[#FF9500] rounded-lg text-black">
-            Connected Account:{account.slice(0, 3) + '...' + account.slice(-4)} {/* Display shortened address */}
-            <Button onClick={disconnectWallet} className="mt-2">
-              Disconnect Wallet
-            </Button>
+            Account: {account.slice(0, 7) + '...' + account.slice(-4)} {/* Display shortened address */}
           </div>
         ) : (
           <Button onClick={connectWallet}>
