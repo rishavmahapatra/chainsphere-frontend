@@ -124,7 +124,7 @@ export function SignupForm({ className, ...props }) {
 
             <div className="grid gap-3">
               <Label htmlFor="referal">Referal</Label>
-              <Input id="referal" name="referal" type="text" placeholder="referal code" value={referal.referralCode} required />
+              <Input id="referal" name="referal" type="text" placeholder="referal code" value={referal.referralCode} />
             </div>
 
             <div className="grid gap-3">

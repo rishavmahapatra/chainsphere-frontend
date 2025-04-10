@@ -61,34 +61,18 @@ export default function Sidebar() {
     });
   };
 
-  // side bar show and hide functionality start 
-  const handleSideBar = (status) => {
-    console.log("the sidebar status is this  ", status, " side bar value ", showSideBar)
-    if (status == "show") {
-      setShowSideBar(true)
-    } else if ("hide") {
-      setShowSideBar(false)
-    } else {
-      console.log("Someting went wrong")
-    }
-
-  }
-  console.log("the sidebar status is this  side bar value ", showSideBar)
-
-  // side bar show and hide functionality ends 
-
   return (
-    <div className={`w-64 bg-black text-white h-screen p-5 absolute z-50 md:static ${showSideBar ? "left-0" : "left-[-217px]"}`}>
+    <div className={`w-64 bg-black text-white h-screen p-5 absolute z-50 md:static ${showSideBar ? "left-0" : "left-[-257px]"}`}>
 
       {/* show/hide side bar in mobile view start   */}
-      <div className='show/hide md :hidden'>
+      <div className='show/hide md:hidden relative w-[100%]' >
 
         {showSideBar ?
-          <span className='float-right '
-            onClick={() => setShowSideBar(true)} ><FaArrowRight color='white' />  </span>
+          <span className='absolute right-2 '
+            onClick={()=>{setShowSideBar(!showSideBar)}} ><FaArrowLeft color='white' />  </span>
           :
-          <span className='float-right '
-            onClick={() => setShowSideBar(false)} ><FaArrowLeft color='white' />  </span>}
+          <span className='absolute -right-10'
+            onClick={()=>{setShowSideBar(!showSideBar)}} ><FaArrowRight color='white' />  </span>}
 
       </div>
       {/* show/hide side bar in mobile view ends   */}
