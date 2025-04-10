@@ -19,7 +19,7 @@ export function LoginForm({ className, ...props }) {
     password: "",
   });
 
-  const [showPassword, setShowPassword] = useState(false) 
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
