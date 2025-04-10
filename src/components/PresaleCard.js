@@ -1,6 +1,10 @@
+import { userAuth } from "@/Use_Context/authContext";
+import Link from "next/link";
 import React from "react";
 
 function PresaleCard() {
+  const { authUser } = userAuth();
+
   return (
     <div>
       <div id="presale-form" className="flex max-w-5xl my-16 justify-center mx-auto flex-col items-center">
@@ -36,7 +40,7 @@ function PresaleCard() {
                   Total Presale Tokens
                 </h3>
                 <p className="font-geometria font-semibold text-base text-right max-smallTablet:text-xs">
-                531,000,000 CSP
+                  531,000,000 CSP
                 </p>
               </div>
             </div>
@@ -75,7 +79,7 @@ function PresaleCard() {
                         className="w-full font-bold text-2xl bg-transparent placeholder:text-[#FFFFFF] text-[#FFFFFF] focus-visible:text-white outline-none duration-300 max-smallTablet:text-base disabled:brightness-50"
                         placeholder="0"
                         value="0"
-                        onChange={() => {}}
+                        onChange={() => { }}
                       />
                     </div>
                   </div>
@@ -89,7 +93,7 @@ function PresaleCard() {
                         className="w-full font-bold text-2xl bg-transparent placeholder:text-[#FFFFFF] text-[#FFFFFF] focus-visible:text-white outline-none duration-300 max-smallTablet:text-base disabled:brightness-50"
                         placeholder="0"
                         value="0"
-                        onChange={() => {}}
+                        onChange={() => { }}
                       />
                     </div>
                   </div>
@@ -97,19 +101,23 @@ function PresaleCard() {
               </div>
             </div>
 
-            
+
 
             <div className="flex justify-center max-tablet:flex-col gap-3">
-              <button
-                className="font-geometria select-none font-bold text-center text-xl border-transparent outline-none focus-visible:border-white/10 border-2 flex justify-center h-[60px] items-center w-[255px] text-white rounded-[50px] py-[16px] px-[50px] bg-[#3859FF] cursor-pointer transition-all duration-[0.5s] ease-in hover:text-[#343C67] hover:bg-[#07FEB8] active:bg-[#85FFDC] active:transition-none"
-                disabled={true}
-              >
-                Buy
-              </button>
-              <button className="font-geometria font-bold text-xl w-[255px] h-[60px] bg-[#FFFFFF] flex flex-row gap-4 items-center px-[35px] py-4 rounded-[50px] justify-center transition-all duration-[0.5s] ease-in hover:bg-[#07FEB8] active:bg-[#85FFDC]">
-                <span className="text-[#1C2449] text-[18px]">Connect wallet</span>
-                <img alt="Wallet" loading="lazy" width="30" height="30" src="/images/walletIcon.svg" />
-              </button>
+
+              <Link className="cursor-pointer" href={`${userAuth ? "/buy_csp" : "/register"}`}>
+                <button
+                  className="font-geometria select-none font-bold text-center text-xl border-transparent outline-none focus-visible:border-white/10 border-2 flex justify-center h-[60px] items-center w-[255px] text-white rounded-[50px] py-[16px] px-[50px] bg-[#3859FF] cursor-pointer transition-all duration-[0.5s] ease-in hover:text-[#343C67] hover:bg-[#07FEB8] active:bg-[#85FFDC] active:transition-none"
+                >
+                  Buy
+                </button>
+              </Link>
+              <Link className="cursor-pointer" href="/buy_csp">
+                <button className="font-geometria font-bold text-xl w-[255px] h-[60px] bg-[#FFFFFF] flex flex-row gap-4 items-center px-[35px] py-4 rounded-[50px] justify-center transition-all duration-[0.5s] ease-in hover:bg-[#07FEB8] active:bg-[#85FFDC]">
+                  <span className="text-[#1C2449] text-[18px]">Connect wallet</span>
+                  <img alt="Wallet" loading="lazy" width="30" height="30" src="/images/walletIcon.svg" />
+                </button>
+              </Link>
             </div>
             <div className="flex flex-col items-center">
               <p className="font-geometria font-medium text-base flex gap-6 justify-center mt-[25px]">

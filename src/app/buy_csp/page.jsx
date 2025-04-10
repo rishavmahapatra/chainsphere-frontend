@@ -9,67 +9,141 @@ import { USDT_CONTRACT_ADDRESS } from "../../env/config";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import LayoutWrapper from '@/components/LayoutWrapper';
+import axios from "axios";
+import { useWallet } from '../../walletContext/WalletContext'; // Import the useWallet hook
 
 export default function BuyCSP() {
-  const [currentAccount, setCurrentAccount] = useState(null);
+  const { account, isBuyCSPDisabled } = useWallet(); // Get account and button state from wallet context
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
   const [contract1, setContract1] = useState(null);
   const [message, setMessage] = useState("");
-
+  const [bnbPrice, setBnbPrice] = useState("0");
+  const [selectedCurrency, setSelectedCurrency] = useState("USDT");
+  const [estimatedCSP, setEstimatedCSP] = useState(0.00); // Default value
+  const [amount, setAmount] = useState(0.0); // New state for amount input
+  const [cspPrice, setCspPrice] = useState(0.0);
+  const token = localStorage.getItem("token"); // Retrieve token from local storage
+  console.log("here is the token: ", token)
   useEffect(() => {
     async function initialize() {
+      const res = await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd")
+      setBnbPrice(res.data.binancecoin.usd);
       if (!window.ethereum) return alert("Please install MetaMask");
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
+
       const contract = new ethers.Contract(ICO_CONTRACT_ADDRESS, abi, signer);
+      try {
+        const price = await contract.tokenPrice();
+        const formattedPrice = ethers.formatUnits(price, 18); // Convert from wei to token price
+        setCspPrice(formattedPrice); // Set the formatted price
+      }
+      catch (err) {
+        alert("Something went wrong.")
+        console.log("Error while fetching tokenPrice:", err);
+      }
       const contract1 = new ethers.Contract(USDT_CONTRACT_ADDRESS, abi1, signer);
       setContract1(contract1);
-      console.log(`contract ----->`, contract)
       setSigner(signer);
       setContract(contract);
-      console.log("Contract initialized", contract);
-      console.log("Signer", signer);
     }
     initialize();
   }, []);
 
+  useEffect(() => {
+    console.log("bnbPrice", bnbPrice);
+  }, [bnbPrice, cspPrice]);
 
-  const connectWallet = async () => {
-    try {
-      if (!window.ethereum) throw new Error("No crypto wallet found");
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setCurrentAccount(accounts[0]);
+  const handleCurrencyChange = (event) => {
+    setSelectedCurrency(event.target.value);
+    calculateEstimatedCSP(amount, event.target.value); // Recalculate when currency changes
+  };
 
-      localStorage.setItem("currentAccount", accounts[0]);
-      console.log(localStorage.getItem("currentAccount"));
-    } catch (err) {
-      console.error(err.message);
-      alert("Please install a crypto wallet like MetaMask");
+  const handleAmountChange = (event) => {
+    const value = event.target.value;
+    setAmount(Number(value)); // Convert to number before setting
+    calculateEstimatedCSP(value, selectedCurrency); // Recalculate estimated CSP based on amount
+  };
+
+  const calculateEstimatedCSP = (amount, currency) => {
+    if (currency === "USDT") {
+      setEstimatedCSP((amount / cspPrice).toFixed(4)); // Calculate for USDT
+    } else {
+      setEstimatedCSP((bnbPrice / cspPrice) * amount); // Calculate for BNB
     }
   };
 
+  const addTransactionToDB = async (hash, currency, amount, totalValue, price) => {
+    const value = totalValue.toString();// Calculate value
+    const status = "completed";
+    const type = "buy";
+    const transactionData = {
+      transactionHash: hash.toString(),
+      amount: amount.toString() + " " + currency,
+      price: price.toString() + " " + currency,
+      value: value,
+      status: status,
+      type: type,
+    };
+    try {
+      await axios.post("http://3.109.67.109:8001/api/v1/user/transaction", transactionData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log("Transaction added to DB:", transactionData);
+    } catch (error) {
+      console.error("Error adding transaction to DB:", error.response ? error.response.data : error.message);
+    }
+  }
 
-  async function BuyToken(i, amount) {
+  const BuyToken = async (i, amount) => {
+    if (!account) { // Check if the user is connected
+      alert("Please connect your wallet to proceed.");
+      return;
+    }
     try {
       if (i === 0) {
-        const tx = await contract.buyToken(0, { value: amount });
-        await tx.wait();
-        alert("BNB payment successful, Token transaction successful!");
-        console.log(tx);
+        try {
+          const bnb = ((1 / bnbPrice) * cspPrice).toFixed(8);
+          const amountInWei = ethers.parseUnits(amount.toString(), 18); // Convert amount to Wei
+          const bnbInWei = ethers.parseUnits(bnb.toString(), 18);
+          const tx = await contract.buyToken(0, bnbInWei, { value: amountInWei });  // Pass amountInWei as msg.value
+          await tx.wait();
+          alert("BNB payment successful, Token transaction successful!");
+          const bnb1 = ((1 / bnbPrice) * cspPrice).toFixed(8)
+          try {
+            await addTransactionToDB(tx.hash, "BNB", amount, estimatedCSP, bnb1)
+          }
+          catch (err) {
+            console.log("error while adding to db : ".err);
+          }
+        } catch (err) {
+          console.log("BNB failed due to: ", err);
+          alert("Please wait for the ICO to be ACTIVE!")
+        }
+      } else {
+        try {
+          const amountInWei = ethers.parseUnits(amount.toString(), 18);
+          const usdtContract = await contract1.approve(ICO_CONTRACT_ADDRESS, amountInWei);
+          await usdtContract.wait();
+          const tx = await contract.buyToken(amountInWei, 0); // Pass the USDT amount
+          await tx.wait();
+          alert("Token transaction successful");
+          try {
+            await addTransactionToDB(tx.hash, "USDT", amount, estimatedCSP, cspPrice)
+          }
+          catch (err) {
+            console.log("error while adding to db : ".err);
+          }
+        }
+        catch (err) {
+          console.log("error in usdt", err)
+          alert("Please wait for the ICO to be ACTIVE!")
+        }
       }
-      else {
-        const usdtContract = await contract1.approve(ICO_CONTRACT_ADDRESS, amount);
-        await usdtContract.wait();
-        console.log(usdtContract);
-        const tx = await contract.buyToken(amount)
-        await tx.wait();
-        alert("Token transaction successful");
-        console.log(tx);
-      }
-
     } catch (error) {
       console.error("Error:", error);
       alert("Token transaction unsuccessful");
@@ -81,17 +155,55 @@ export default function BuyCSP() {
       <div>
         <div className="buy-csp-container flex flex-col items-center justify-center">
           <h1 className="text-3xl font-bold">Buy CSP</h1>
-          <p>Connect your wallet to buy CSP tokens.</p>
-          <Button onClick={connectWallet} >
-            Connect Wallet
-          </Button>
-          {currentAccount && <p>Connected account: {currentAccount}</p>}
+
         </div>
-        <Label htmlFor="amount">Amount</Label>
-        <Input id="amount" type="number" placeholder="Enter amount" />
-        <Button onClick={() => BuyToken(1, 200)}>
-          Buy CSP
-        </Button>
+
+        {/* Dynamic Text Display */}
+        <div className="mt-4 text-lg">
+          {selectedCurrency === "USDT"
+            ? `1 CSP = ${cspPrice}`
+            : `1 CSP = ${((1 / bnbPrice) * 0.05).toFixed(8)} BNB`}
+        </div>
+
+        <div className="flex flex-row items-center justify-between mt-4">
+          <div className="flex flex-col mr-2">
+            <Label htmlFor="currency">Currency</Label>
+            <select id="currency" value={selectedCurrency} onChange={handleCurrencyChange} className="border rounded p-2">
+              <option value="USDT">USDT</option>
+              <option value="BNB">BNB</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col mx-2">
+            <Label htmlFor="amount">Amount</Label>
+            <Input
+              id="amount"
+              type="number"
+              placeholder="Enter amount"
+              value={amount}
+              onChange={handleAmountChange} // Update amount on change
+            />
+          </div>
+
+          <div className="flex flex-col ml-2">
+            <Label htmlFor="estimatedCSP">Est CSP Tokens</Label>
+            <Input id="estimatedCSP" type="text" value={`${estimatedCSP}`} readOnly />
+          </div>
+        </div>
+
+        {/* Centered Buy CSP Button */}
+        <div className="flex justify-center mt-4">
+          <Button onClick={() => BuyToken(selectedCurrency === "USDT" ? 1 : 0, amount)} disabled={!account || isBuyCSPDisabled}>
+            Buy CSP
+          </Button>
+        </div>
+
+        {/* Disclaimer Text below the button */}
+        {selectedCurrency === "BNB" && (
+          <p className="mt-2 text-sm text-gray-500 text-center">
+            **The BNB price is volatile, the live price will be considered.**
+          </p>
+        )}
       </div>
     </LayoutWrapper>
   );

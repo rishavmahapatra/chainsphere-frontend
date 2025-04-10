@@ -8,6 +8,9 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner"
+import { BiShow } from "react-icons/bi";
+import { BiHide } from "react-icons/bi";
+
 export function LoginForm({ className, ...props }) {
   const router = useRouter();
 
@@ -16,24 +19,35 @@ export function LoginForm({ className, ...props }) {
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        "http://3.109.67.109:8001/api/v1/user/login",
+        "https://api.chainsphere.tech/api/v1/user/login",
         formData
       );
+<<<<<<< HEAD
+      const token = response.data.data.token;
+      localStorage.setItem("token", token);
+      console.log("new token set : ", localStorage.getItem("token"));
+=======
       const token  = response.data.data.token;
-      document.cookie = `token=${token}; path=/;`;
+      const user  = response.data.data.user;
+      console.log("the data is here from lcoal ",user)
+      localStorage.setItem("token",token);
+      localStorage.setItem("user",JSON.stringify(user));
+>>>>>>> origin/aves
 
       if (response.data.success) {
         toast("Login Successfully")
         router.push("/");
-      } 
-      
+      }
+
     } catch (error) {
-      toast("Something went wrong") 
+      toast("Something went wrong")
     }
   };
 
@@ -72,15 +86,41 @@ export function LoginForm({ className, ...props }) {
                     Forgot your password?
                   </a>
                 </div>
+
+                <div className="inputWraper flex relative">
+
                 <Input
                   id="password"
-                  type="password"
+                  type={`${showPassword ? "text" : "password"}`}
                   value={formData.password}
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
+                  placeholder="enter your password"
                   required
                 />
+                 {showPassword ? (
+                    <span
+                      onClick={() => {
+                       setShowPassword(!showPassword)
+                      }}
+                      className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
+                    >
+                      {" "}
+                      <BiShow fontSize={"1.2rem"} />{" "}
+                    </span>
+                  ) : (
+                    <span
+                      onClick={() => {
+                       setShowPassword(!showPassword)
+                      }}
+                      className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
+                    >
+                      {" "}
+                      <BiHide fontSize={"1.2rem"} />{" "}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <Button type="submit" className="w-full">
