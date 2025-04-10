@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner"
 import { BASE_URL } from "@/config/config";
@@ -17,7 +17,7 @@ export function SignupForm({ className, ...props }) {
   // const navigate =useNavigate();
   const router = useRouter();
 
-  
+  const referal = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -120,6 +120,11 @@ export function SignupForm({ className, ...props }) {
                 <Label htmlFor="ibiId">IBI ID</Label>
                 <Input id="ibiId" name="ibiId" type="text" placeholder="IBI123456" required />
               </div>
+            </div>
+
+            <div className="grid gap-3">
+              <Label htmlFor="referal">Referal</Label>
+              <Input id="referal" name="referal" type="text" placeholder="referal code" value={referal.referralCode} required />
             </div>
 
             <div className="grid gap-3">
