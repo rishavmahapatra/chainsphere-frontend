@@ -11,9 +11,11 @@ import { Label } from "@/components/ui/label";
 import LayoutWrapper from '@/components/LayoutWrapper';
 import axios from "axios";
 import { useWallet } from '../../walletContext/WalletContext'; // Import the useWallet hook
-
+import { userAuth } from "@/Use_Context/authContext";
 
 export default function BuyCSP() {
+  const { authUser, userDetails } = userAuth();
+  let user = {};
   const { account, isBuyCSPDisabled } = useWallet(); // Get account and button state from wallet context
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
@@ -102,10 +104,22 @@ export default function BuyCSP() {
   }
 
   const BuyToken = async (i, amount) => {
+
+    if (!authUser) {
+      alert("Please Log in first!");
+      return;
+    }
+
     if (!account) { // Check if the user is connected
       alert("Please connect your wallet to proceed.");
       return;
     }
+
+    if (isBuyCSPDisabled) {
+      alert("Please connect your correct wallet account");
+      return;
+    }
+
     // else if ()
     try {
       if (i === 0) {
@@ -214,7 +228,8 @@ export default function BuyCSP() {
 
         {/* Centered Buy CSP Button */}
         <div className="flex justify-center mr-24 relative z-30 mt-4">
-          <Button onClick={() => BuyToken(selectedCurrency === "USDT" ? 1 : 0, amount)} disabled={!account || isBuyCSPDisabled}>
+          <Button onClick={() => BuyToken(selectedCurrency === "USDT" ? 1 : 0, amount)} >
+            {/* disabled={!account || isBuyCSPDisabled || !authUser} */}
             Buy CSP
           </Button>
         </div>
