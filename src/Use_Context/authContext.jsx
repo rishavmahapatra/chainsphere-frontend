@@ -17,10 +17,10 @@ export const AuthContextProvider = ({children}) =>{
             setAuthUser(token);
             setuserDetails(user);
         }
-    }, []);
+    }, [localStorage.getItem("token")]);
 
     return( 
-        <AuthContext.Provider value={{authUser, userDetails}}>
+        <AuthContext.Provider value={{authUser, userDetails,setAuthUser,setuserDetails}}>
             {children} 
         </AuthContext.Provider>
     );

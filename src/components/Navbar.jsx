@@ -6,6 +6,7 @@ import { userAuth } from "@/Use_Context/authContext";
 
 function Navbar() {
   const {authUser,userDetails} = userAuth();
+
   let user = {};
   if(authUser && userDetails){
      user  = JSON.parse(userDetails);
@@ -34,9 +35,17 @@ function Navbar() {
          </>
           :
           <>
-          <h2 className="username ">
+         <div className="wrapper flex gap-3 justify-center items-center">
+         <h2 className="username ">
             {user?.firstName}
           </h2>
+          <Link className="cursor-pointer mx-2" href="/login">
+            <Button onClick={()=>{localStorage.removeItem("token");
+}} className="z-50 cursor-pointer text-black hover:bg-gray-200">
+              Logout
+            </Button>
+          </Link>
+         </div>
           </>}
         </div>
       </nav>
