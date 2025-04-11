@@ -11,21 +11,13 @@ import { Label } from "@/components/ui/label";
 import LayoutWrapper from '@/components/LayoutWrapper';
 import axios from "axios";
 import { useWallet } from '../../walletContext/WalletContext'; // Import the useWallet hook
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+
 
 export default function BuyCSP() {
   const { account, isBuyCSPDisabled } = useWallet(); // Get account and button state from wallet context
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
   const [contract1, setContract1] = useState(null);
-  const [message, setMessage] = useState("");
   const [bnbPrice, setBnbPrice] = useState("0");
   const [selectedCurrency, setSelectedCurrency] = useState("USDT");
   const [estimatedCSP, setEstimatedCSP] = useState(0.00); // Default value
@@ -114,6 +106,7 @@ export default function BuyCSP() {
       alert("Please connect your wallet to proceed.");
       return;
     }
+    // else if ()
     try {
       if (i === 0) {
         try {

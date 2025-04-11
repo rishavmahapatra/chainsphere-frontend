@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import Navbar from "@/components/Navbar";
 import { WalletProvider } from '../walletContext/WalletContext';
 import { AuthContextProvider } from "@/Use_Context/authContext";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
             <Navbar />
             {children}
             <Toaster />
+            <Footer />
           </WalletProvider>
         </AuthContextProvider>
       </body>

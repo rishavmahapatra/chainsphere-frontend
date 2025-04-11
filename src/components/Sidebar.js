@@ -22,7 +22,7 @@ const menuItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { account, connectWallet, disconnectWallet } = useWallet();
+  const { account, connectWallet } = useWallet();
   const { authUser } = userAuth();
 
   const [showSideBar, setShowSideBar] = useState(false);
@@ -69,10 +69,10 @@ export default function Sidebar() {
 
         {showSideBar ?
           <span className='absolute right-2 '
-            onClick={()=>{setShowSideBar(!showSideBar)}} ><FaArrowLeft color='white' />  </span>
+            onClick={() => { setShowSideBar(!showSideBar) }} ><FaArrowLeft color='white' />  </span>
           :
           <span className='absolute -right-10'
-            onClick={()=>{setShowSideBar(!showSideBar)}} ><FaArrowRight color='white' />  </span>}
+            onClick={() => { setShowSideBar(!showSideBar) }} ><FaArrowRight color='white' />  </span>}
 
       </div>
       {/* show/hide side bar in mobile view ends   */}
