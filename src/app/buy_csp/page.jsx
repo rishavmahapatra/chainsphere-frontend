@@ -32,7 +32,6 @@ export default function BuyCSP() {
   const [amount, setAmount] = useState(0.0); // New state for amount input
   const [cspPrice, setCspPrice] = useState(0.0);
   const token = localStorage.getItem("token"); // Retrieve token from local storage
-  console.log("here is the token: ", token)
   useEffect(() => {
     async function initialize() {
       const res = await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd")
@@ -46,6 +45,9 @@ export default function BuyCSP() {
         const price = await contract.tokenPrice();
         const formattedPrice = ethers.formatUnits(price, 18); // Convert from wei to token price
         setCspPrice(formattedPrice); // Set the formatted price
+        // if (cspPrice == 0) {
+        //   alert("ICO sale has not started yet");
+        // }
       }
       catch (err) {
         alert("Something went wrong.")
@@ -116,13 +118,17 @@ export default function BuyCSP() {
       if (i === 0) {
         try {
           const bnb = ((1 / bnbPrice) * cspPrice).toFixed(8);
+          console.log("bnb for scan :", bnb)
           const amountInWei = ethers.parseUnits(amount.toString(), 18); // Convert amount to Wei
           const bnbInWei = ethers.parseUnits(bnb.toString(), 18);
+          console.log("value in wie:", amountInWei)
+          console.log("bnbPrice in wei:", bnbInWei);
           const tx = await contract.buyToken(0, bnbInWei, { value: amountInWei });  // Pass amountInWei as msg.value
           await tx.wait();
           alert("BNB payment successful, Token transaction successful!");
           const bnb1 = ((1 / bnbPrice) * cspPrice).toFixed(8)
           try {
+
             await addTransactionToDB(tx.hash, "BNB", amount, estimatedCSP, bnb1)
           }
           catch (err) {
@@ -190,6 +196,9 @@ export default function BuyCSP() {
               <option value="BNB">BNB</option>
             </select>
           </div>
+
+
+
 
           <div className="flex flex-col space-y-2 mx-2">
             <Label htmlFor="amount ">Amount</Label>

@@ -6,7 +6,7 @@ import axios from "axios";
 export default function TransactionsPage() {
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -22,7 +22,10 @@ export default function TransactionsPage() {
 
                 setTransactions(response.data.data);
             } catch (err) {
-                setError(err.message);
+                if (err.response.status == 404) {
+                    alert("No Transaction for your wallet address yet.")
+                }
+                setError("No Transaction for your wallet address yet.");
             } finally {
                 setLoading(false);
             }
@@ -32,7 +35,7 @@ export default function TransactionsPage() {
     }, []);
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (error) return <div>No transactions to show</div>;
 
     return (
         <div style={{ backgroundColor: '#1E1E1E', color: '#FFFFFF', padding: '20px' }}>

@@ -17,7 +17,8 @@ export const WalletProvider = ({ children }) => {
                 console.log('Connected account:', accounts[0]);
 
                 // New API call to add the connected wallet address with Bearer token
-                const token = localStorage.getItem("token"); // Retrieve token from local storage
+                const token = localStorage.getItem("token");
+                // Retrieve token from local storage
                 console.log("Token before API call:", token); // Log the token
                 if (!token) {
                     console.error('No token found. Please log in.');
@@ -40,14 +41,20 @@ export const WalletProvider = ({ children }) => {
                 setIsBuyCSPDisabled(false)
 
             } catch (error) {
-                if (error.response && error.response.status === 401) {
+
+                if ((error.response && error.response.status === 401) || error.response.status == 501 || error.response.status == 400) {
                     const { data } = error.response;
+
                     if (data.message === "Invalid wallet address") {
                         alert(data.message); // Alert the user with the error message
                         setIsBuyCSPDisabled(true)
-                    } else if (data.message === "wallet address already added") {
+                    }
+                    else if (data.message === "Wallet address already added") {
                         // Do nothing
+                        setIsBuyCSPDisabled(false);
                     } else {
+                        console.log("disableing the buy button")
+                        setIsBuyCSPDisabled(true)
                         console.error('Unexpected error message:', data.message);
                     }
                 } else {

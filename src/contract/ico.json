@@ -255,7 +255,7 @@
   },
   {
     "inputs": [],
-    "name": "Pause",
+    "name": "PauseResume",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -285,7 +285,7 @@
   },
   {
     "inputs": [],
-    "name": "WithdrawUSDT",
+    "name": "Withdraw",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -920,6 +920,30 @@
         "internalType": "contract IERC20",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "userDetails",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "saleType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalTokens",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
