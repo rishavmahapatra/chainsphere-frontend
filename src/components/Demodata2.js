@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function ChainsphereTopicsPage() {
     return (
-        <div className=" text-white min-h-screen px-16 pb-10">
+        <div className=" text-white min-h-screen px-2 md:px-16 pb-10">
             <h1 className="text-5xl font-bold mb-4 text-center">Topics</h1>
             <p className="text-yellow-400 text-xl font-semibold text-center mb-2">
                 Explore a World of Knowledge
@@ -10,7 +10,7 @@ export default function ChainsphereTopicsPage() {
             <p className="text-center text-lg mb-12">
                 Dive into a variety of subjects, from emerging technologies to <br/>business strategies, with content designed to inform and inspire.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-40 py-16 px-6 md:px-20 lg:px-32">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-5 md:gap-y-40 py-16  px-2 md:px-20 lg:px-32">
                 <div className="flex flex-col justify-center">
                     <h2 className="text-yellow-400 text-2xl font-semibold mb-4">
                         Chainsphere Coin – The Future of Digital Transactions

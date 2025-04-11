@@ -7,16 +7,16 @@ function PresaleCard() {
 
   return (
     <div>
-      <div id="presale-form" className="flex max-w-5xl my-16 justify-center mx-auto flex-col items-center">
+      <div id="presale-form" className=" overflow-x-hidden flex max-w-5xl md:my-16 justify-center mx-auto flex-col items-center">
         <div className="mb-[50px]">
           <p className="font-krona font-normal text-sm text-center mb-4 leading-[17.5px] tracking-[0.6rem]"></p>
-          <h2 className="font-krona text-[76px] max-tablet:text-[55px] max-smallTablet:text-[34px] max-mobile:text-[25px] leading-[95px] tracking-[-10%] text-center">
+          <h2 className="font-krona text-[28px] md:text-[76px] max-tablet:text-[55px] max-smallTablet:text-[34px] max-mobile:text-[25px] leading-[95px] tracking-[-10%] text-center">
             PRESALE&nbsp;&nbsp;START
           </h2>
         </div>
 
         <div className="w-full max-smallTablet:max-w-full max-h-fit">
-          <div className="rounded-3xl bg-gradient-to-r from-[#FFC000] to-[#FF9500] backdrop-blur-[20px] text-white p-[50px] max-laptop:p-[10px] relative border-2 border-white/5">
+          <div className="rounded-3xl bg-gradient-to-r from-[#FFC000] to-[#FF9500] backdrop-blur-[20px] text-white p-2 md:p-[50px] max-laptop:p-[10px] relative border-2 border-white/5">
             <div className="font-geometria text-[22px] text-center mb-[15px] max-laptop:mt-[30px]">Raised</div>
 
             <div className="text-center mb-4">
@@ -26,7 +26,7 @@ function PresaleCard() {
               <p className="font-geometria text-lg max-smallTablet:text-base">Buy in before price increases!</p>
             </div>
 
-            <div className="font-geometria flex flex-row justify-between text-center text-[#943535] max-h-min mb-6 px-10 max-laptop:px-6 max-smallTablet:px-3">
+            <div className="font-geometria flex flex-row justify-between text-center text-[#943535] max-h-min mb-6 px-4 sm:px-10 max-laptop:px-6 max-smallTablet:px-3">
               <div>
                 <h3 className="font-geometria text-black font-medium text-base text-left max-smallTablet:text-sm">
                   Token Sold
@@ -70,7 +70,7 @@ function PresaleCard() {
                 </p>
               </div>
 
-              <div className="flex gap-3 max-tablet:justify-center justify-center">
+              <div className="flex gap-3 md:flex-row flex-col max-tablet:justify-center justify-center">
                 <div className="p-3 bg-[#080A12] border rounded-[20px] border-solid border-[#FFFFFF33] backdrop-blur-2xl">
                   <div className="w-[310px] max-tablet:w-full flex justify-between items-center">
                     <div className="font-geometria flex-1">
@@ -103,7 +103,7 @@ function PresaleCard() {
 
 
 
-            <div className="flex justify-center max-tablet:flex-col gap-3">
+            <div className="flex md:flex-row flex-col items-center justify-center max-tablet:flex-col gap-3">
 
               <Link className="cursor-pointer" href={`${userAuth ? "/buy_csp" : "/register"}`}>
                 <button

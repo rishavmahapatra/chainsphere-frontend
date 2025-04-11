@@ -12,9 +12,9 @@ export default function FutureBuilding() {
   ];
 
   return (
-    <div className=" text-white flex justify-center my-36 px-6">
+    <div className=" text-white flex justify-center my-10 md:my-36 px-2 md:px-6">
       <div className="text-center">
-      <h2 className="text-white font-bold text-[40px] md:text-[60px]  leading-tight">           The Future We&apos;re Building</h2>
+      <h2 className="text-white font-bold text-[28px] md:text-[60px]  leading-tight">           The Future We&apos;re Building</h2>
       <p className="mt-2 text-gray-400 text-lg md:text-xl">
            Once the ICO phase is complete, we will begin the development of our cutting-edge AI ecosystem
          </p>
