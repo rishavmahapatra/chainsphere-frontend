@@ -1,16 +1,20 @@
-"use client"
+"use client";
 import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { userAuth } from "@/Use_Context/authContext";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
-  const {authUser,userDetails} = userAuth();
+  const { authUser, userDetails, logout } = userAuth();
+  const router = useRouter();
+
   let user = {};
-  if(authUser && userDetails){
-     user  = JSON.parse(userDetails);
+  if (authUser && userDetails) {
+    user = JSON.parse(userDetails);
   }
 
+  console.log("the user is this ", user)
   return (
     <div>
       <nav className="flex justify-between relative z-50">
@@ -18,26 +22,37 @@ function Navbar() {
           <img src="/images/logo.svg" alt="logo" className="w-12 p-2" />
           <span>Chainsphere</span>
         </div>
-        <div className="right p-4 flex sm:gap-5">
-         {!authUser ?
-         <>
-          <Link className="cursor-pointer" href="/login">
-            <Button className="z-50 cursor-pointer text-black hover:bg-gray-200">
-              Login
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button className=" text-black hover:bg-gray-200 sm:block hidden">
-              Register
-            </Button>
-          </Link>
-         </>
-          :
-          <>
-          <h2 className="username ">
-            {user?.firstName}
-          </h2>
-          </>}
+        <div className="right p-4 flex gap-5">
+          {!authUser ? (
+            <>
+              <Link className="cursor-pointer" href="/login">
+                <Button className="z-50 cursor-pointer text-black hover:bg-gray-200">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button className=" text-black hover:bg-gray-200">
+                  Register
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="wrapper flex gap-3 justify-center items-center">
+                <h2 className="username ">{user?.firstName}</h2>
+                <Link className="cursor-pointer mx-2" href="/login">
+                  <Button
+                    onClick={() => {
+                      localStorage.removeItem("token"); logout(); router.push("/login")
+                    }}
+                    className="z-50 cursor-pointer text-black hover:bg-gray-200"
+                  >
+                    Logout
+                  </Button>
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </nav>
     </div>

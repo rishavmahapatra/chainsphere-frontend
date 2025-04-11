@@ -199,7 +199,7 @@ export default function BuyCSP() {
             <select id="currency" value={selectedCurrency} onChange={handleCurrencyChange} className="bg-white text-black border- outline-none font-semibold [1px] border-gray-300 m-0 px-4 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full 
             p-3">
               {/* <option selected>Choose a currency</option> */}
-              <option selected={true} value="USDT">USDT</option>
+              <option defaultValue={true} value="USDT">USDT</option>
               <option value="BNB">BNB</option>
             </select>
           </div>

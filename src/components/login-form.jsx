@@ -10,8 +10,12 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner"
 import { BiShow } from "react-icons/bi";
 import { BiHide } from "react-icons/bi";
+import { userAuth } from "@/Use_Context/authContext";
 
 export function LoginForm({ className, ...props }) {
+
+  const { login } = userAuth();
+
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -31,13 +35,13 @@ export function LoginForm({ className, ...props }) {
       );
       const token = response.data.data.token;
       const user = response.data.data.user;
-      console.log("the data is here from lcoal ", user)
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
 
       if (response.data.success) {
-        toast("Login Successfully")
-        router.push("/buy_csp");
+        toast("Login Successfully");
+        login(token, user);
+        router.push("/");
       }
 
     } catch (error) {
