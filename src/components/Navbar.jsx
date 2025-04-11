@@ -18,7 +18,7 @@ function Navbar() {
           <img src="/images/logo.svg" alt="logo" className="w-12 p-2" />
           <span>Chainsphere</span>
         </div>
-        <div className="right p-4 flex gap-5">
+        <div className="right p-4 flex sm:gap-5">
          {!authUser ?
          <>
           <Link className="cursor-pointer" href="/login">
@@ -27,7 +27,7 @@ function Navbar() {
             </Button>
           </Link>
           <Link href="/register">
-            <Button className=" text-black hover:bg-gray-200">
+            <Button className=" text-black hover:bg-gray-200 sm:block hidden">
               Register
             </Button>
           </Link>
