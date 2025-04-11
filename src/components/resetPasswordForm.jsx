@@ -15,56 +15,27 @@ export function ResetPasswordForm() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState({
-    oldPassword: false,
-    newPassword: false,
+    password: false,
     confirmPassword: false,
   });
 
   const [formData, setFormData] = useState({
     email: "",
-    oldPassword: "",
-    newPassword: "",
+    password: "",
     confirmPassword: "",
   });
 
   const token  = localStorage.getItem("token")
-
-  const handleShowPassword = (passwordId) => {
-    switch (passwordId) {
-      case "oldPassword":
-        setShowPassword({
-          ...showPassword,
-          oldPassword: !showPassword.oldPassword,
-        });
-        break;
-      case "newPassword":
-        setShowPassword({
-          ...showPassword,
-          newPassword: !showPassword.newPassword,
-        });
-        break;
-      case "confirmPassword":
-        setShowPassword({
-          ...showPassword,
-          confirmPassword: !showPassword.confirmPassword,
-        });
-        break;
-
-      default:
-        break;
-    }
-    console.log("password id  update ", showPassword);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        "https://api.chainsphere.tech/api/v1/user/changePassword",
+        "https://api.chainsphere.tech/api/v1/user/change-password",
         formData,{
             headers:{
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImVtYWlsIjoiYXZAeW9wbWFpbC5jb20iLCJpYXQiOjE3NDQzNzM1MjgsImV4cCI6MTc0NDYzMjcyOH0.fx_89L3Ppn1yGZfhorf3Ti0HpwFMSz6DtomhROeVZLc`,
             }
         }
       );
@@ -78,6 +49,7 @@ export function ResetPasswordForm() {
       console.log(error);
     }
   };
+  console.log("the reset passwrod is here ", formData)
 
   return (
     <div className={cn("flex  flex-col gap-6")}>
@@ -86,7 +58,7 @@ export function ResetPasswordForm() {
           <form onSubmit={handleSubmit} className="p-6 md:p-8">
             <div className="flex  flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome</h1>
+                <h1 className="text-2xl font-bold">Reset</h1>
                 <p className="text-muted-foreground text-balance">
                   Reset your password
                 </p>
@@ -106,61 +78,23 @@ export function ResetPasswordForm() {
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label htmlFor="oldPassword">Old Password</Label>
-                </div>
-                <div className="inputWrapper flex relative">
-                  <Input
-                    id="oldPassword"
-                    type={`${showPassword.oldPassword ? "text" : "password"}`}
-                    value={formData.oldPassword}
-                    onChange={(e) =>
-                      setFormData({ ...formData, oldPassword: e.target.value })
-                    }
-                    placeholder="enter the old password"
-                    required
-                  />
-                  {showPassword.oldPassword ? (
-                    <span
-                      onClick={() => {
-                        handleShowPassword("oldPassword");
-                      }}
-                      className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
-                    >
-                      {" "}
-                      <BiShow fontSize={"1.2rem"} />{" "}
-                    </span>
-                  ) : (
-                    <span
-                      onClick={() => {
-                        handleShowPassword("oldPassword");
-                      }}
-                      className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
-                    >
-                      {" "}
-                      <BiHide fontSize={"1.2rem"} />{" "}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="newPassword">New Password</Label>
+                  <Label htmlFor="password">Password</Label>
                 </div>
                <div className="inputWrapper flex relative">
                <Input
-                  id="newPassword"
-                  type={`${showPassword.newPassword ? "text" : "password"}`}
-                  value={formData.newPassword}
+                  id="password"
+                  type={`${showPassword.password ? "text" : "password"}`}
+                  value={formData.password}
                   onChange={(e) =>
-                    setFormData({ ...formData, newPassword: e.target.value })
+                    setFormData({ ...formData, password: e.target.value })
                   }
                   placeholder="enter the new password"
                   required
                 />
-                 {showPassword.newPassword ? (
+                 {showPassword.password ? (
                     <span
                       onClick={() => {
-                        handleShowPassword("newPassword");
+                        setShowPassword({...showPassword, password: !showPassword.password})
                       }}
                       className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
                     >
@@ -170,7 +104,7 @@ export function ResetPasswordForm() {
                   ) : (
                     <span
                       onClick={() => {
-                        handleShowPassword("newPassword");
+                        setShowPassword({...showPassword, password: !showPassword.password})
                       }}
                       className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
                     >
@@ -201,7 +135,7 @@ export function ResetPasswordForm() {
                  {showPassword.confirmPassword ? (
                     <span
                       onClick={() => {
-                        handleShowPassword("confirmPassword");
+                        setShowPassword({...showPassword, confirmPassword: !showPassword.confirmPassword})
                       }}
                       className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
                     >
@@ -211,7 +145,7 @@ export function ResetPasswordForm() {
                   ) : (
                     <span
                       onClick={() => {
-                        handleShowPassword("confirmPassword");
+                        setShowPassword({...showPassword, confirmPassword: !showPassword.confirmPassword})
                       }}
                       className="showIcon absolute right-2 top-[50%] translate-y-[-50%] "
                     >
@@ -224,7 +158,7 @@ export function ResetPasswordForm() {
               </div>
 
               <Button type="submit" className="w-full">
-                Login
+                Reset Password
               </Button>
             </div>
           </form>
