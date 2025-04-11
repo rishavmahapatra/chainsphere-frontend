@@ -14,6 +14,8 @@ import { userAuth } from "@/Use_Context/authContext";
 
 export function LoginForm({ className, ...props }) {
 
+  const {login} = userAuth();
+
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -37,7 +39,8 @@ export function LoginForm({ className, ...props }) {
       localStorage.setItem("user", JSON.stringify(user));
 
       if (response.data.success) {
-        toast("Login Successfully")
+        toast("Login Successfully");
+        login(token,user);
         router.push("/");
       }
 
